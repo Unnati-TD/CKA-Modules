@@ -1,0 +1,394 @@
+#!/bin/bash
+if [ $1 == 'grade' ]
+then
+	case $2 in
+	lab1)
+echo -e "\e[1;34m===========================================================\e[0m"
+echo -e "\e[1;34mGrading Script for Assisted Practice 1 Unit 2\e[0m"
+echo -e "\e[1;34m===========================================================\e[0m"
+#Checking kubectl version 1.23
+var1=$(kubectl version 2> /dev/null | awk '/Client Version/ { print $3 }' | grep 1)
+if [ $? -eq  0 ]
+then
+	var2=$(kubectl version 2> /dev/null | awk '/Client Version/ { print $4 }' | grep 23)
+	if [ $? -eq 0 ]
+	then
+		echo -e  "We have Kubectl version 1.23 installed \e[1;32m Pass \e[0m" 
+	else
+		echo -e   "We don't have Kubectl version 1.23 installed \e[1;31m Fail \e[0m" 
+	fi
+fi
+
+#Checking for kubeadm version 1.23
+var3=$(kubeadm version 2> /dev/null | awk '/kubeadm version/ { print $3 }' | grep 1)
+if [ $? -eq  0 ]
+then
+	var4=$(kubeadm version 2> /dev/null | awk '/kubeadm version/ { print $4 }' | grep 23)
+	if [ $? -eq 0 ]
+	then
+		echo -e  "We have Kubeadm version 1.23 installed \e[1;32m Pass \e[0m"
+	else
+		echo -e  "We don't have Kubeadm version 1.23 installed\e[1;31m Fail \e[0m"
+	fi
+else
+	echo -e "We don't have Kubectl version 1.23 installed\e[1;31m Fail \e[0m"
+fi
+
+#Cheking kubectl get nodes
+kubectl get nodes > k1 2> /dev/null
+ckeck=0
+while IFS= read -r line
+do
+	var1=$(echo $line | awk ' { print $1 } ')
+	var2=$(echo $line | awk ' { print $2 } ')
+	if [[ $line == *"$var1"* ]]
+	then
+		if [[ "$line" == *"Ready"* ]]
+		then
+			check=$((check+1))
+		fi
+	fi
+done < k1
+
+#checking for get pods
+kubectl get pods -n kube-system > k2 2> /dev/null
+
+while IFS= read -r line
+do
+	var3=$(echo $line | awk ' { print $2 } ')
+
+	if [[ $line == *"$var3"* ]]
+	then
+		if [[ "$line" == *"1/1"* ]]
+		then
+			if [[ "$line" == *"Running"* ]]
+			then
+				check=$((check+1))
+			fi
+		fi
+	fi
+done < k2
+
+if [ -d $HOME/.kube 2> /dev/null ]
+then
+	if [ -f $HOME/.kube/config 2> /dev/null ]
+	then
+		var4=$(ls -l $HOME/.kube/config | awk '{ print $3 }')
+		var5=$(ls -l $HOME/.kube/config | awk '{ print $4 }')
+		#echo $var4
+		#echo $var5
+		if [[ "$var4" == "labsuser" ]]
+		then
+			if [[ "$var5" == "labsuser" ]]
+			then
+				check=$((check+1))
+			fi
+		fi
+	fi
+fi
+
+if [[ $check == 13 ]]
+then
+	echo -e "Kubernetes cluster is ready \e[1;32m Pass \e[0m"
+else
+	echo -e "Kuberneetes cluster is not ready\e[1;31m Fail \e[0m"
+
+fi
+
+sudo rm k1 k2 2> /dev/null
+		;;
+	lab2)
+
+echo -e "\e[1;34m===========================================================\e[0m"
+echo -e "\e[1;34mGrading Script for Assisted Practice 2 Unit 2\e[0m"
+echo -e "\e[1;34m===========================================================\e[0m"
+
+check=0
+kubectl get pods 2> /dev/null > k1
+while IFS= read -r line
+do
+	var3=$(echo $line | awk ' { print $1 } ')
+	if [[ $var3 == "apache2" ]]
+	then
+		if [[ "$line" == *"1/1"* ]]
+		then
+			if [[ "$line" == *"Running"* ]]
+			then
+				check=$((check+1))
+			fi
+		fi
+	fi
+	if [[ $var3 == "apache3" ]]
+	then
+		if [[ "$line" == *"1/1"* ]]
+		then
+			if [[ "$line" == *"Running"* ]]
+			then
+				check=$((check+1))
+			fi
+		fi
+	fi
+done < k1
+
+kubectl get svc 2> /dev/null > k2
+while IFS= read -r line
+do
+        var4=$(echo $line | awk ' { print $1 } ')
+	if [[ $var4 == "myservice" ]]
+	then
+		if [[ "$line" == *"ClusterIP"* ]]
+		then
+			var5=$(echo $line | awk ' { print $5 } ')
+			if [[ $var5 = "8081/TCP" ]]
+			then
+				var6=$(echo $line | awk ' { print $3 } ')
+				if curl $var6:8081; then
+					check=$((check+1))
+				fi
+			fi
+		fi
+	fi
+done < k2
+
+if [ $check -eq 3 ]
+then
+	echo -e "pod named apache2 and apache3 are running \e[1;32m Pass \e[0m"
+	echo -e "service named myservice is running on port 8081 \e[1;32m Pass \e[0m"
+else
+	echo -e "pod named apache2 and apache3 are not running \e[1;31m Fail \e[0m"
+        echo -e "service named myservice is not running on port 8081 \e[1;31m Fail \e[0m"
+fi
+
+sudo rm k1 k2 
+		;;
+	lab3)
+echo -e "\e[1;34m===========================================================\e[0m"
+echo -e "\e[1;34mGrading Script for Assisted Practice 3 Unit 2\e[0m"
+echo -e "\e[1;34m===========================================================\e[0m"
+
+check=0
+kubectl get pods -o wide 2> /dev/null > k1
+while IFS=' ' read -r v1 v2 v3 v4 v5 v6 v7 v8 v9
+do
+	if [[ $v1 == 'mypod1' ]]
+	then
+		if [[ $v2 == '1/1' ]]
+		then
+			if [[ $v3 == 'Running' ]]
+			then
+				if curl $v6:8080; then
+					check=$((check+1))
+				fi
+			fi
+		fi
+	fi
+	if [[ $v1 == 'mypod2' ]]
+        then
+                if [[ $v2 == '1/1' ]]
+                then
+                        if [[ $v3 == 'Running' ]]
+                        then
+                                if curl $v6:8080; then
+                                        check=$((check+1))
+                                fi
+                        fi
+                fi
+        fi
+done < k1
+ 
+if [ $check -eq 2 ]
+then
+	echo -e "pod named mypod1 and mypod2 are running \e[1;32m Pass \e[0m"
+else
+	echo -e "pod named mypod1 and mypod2 are not running \e[1;31m Fail \e[0m"
+fi
+
+sudo rm k1 
+		;;
+	lab4)
+echo -e "\e[1;34m===========================================================\e[0m"
+echo -e "\e[1;34mGrading Script for Assisted Practice 4 Unit 2\e[0m"
+echo -e "\e[1;34m===========================================================\e[0m"
+
+check=0
+kubectl get deployment 2> /dev/null > k1
+while IFS=' ' read v1 v2 v3 v4 v5
+do
+	if [[ $v1 == 'myapp1' ]]
+	then
+		if [[ $v2 == '1/1' ]]
+		then
+			check=$((check+1))
+		fi
+	fi
+done < k1
+if [ $check -eq 1 ]
+then
+	echo -e "deployment myapp1 is ready \e[1;32m Pass \e[0m"
+else
+	echo -e "deployment myapp1 is not ready \e[1;31m Fail \e[0m"
+fi
+kubectl get pods -o wide 2> /dev/null > k2
+while IFS=' ' read -r v1 v2 v3 v4 v5 v6 v7 v8 v9
+do
+        if [[ $v1 == *'mypod1'* ]]
+        then
+                if [[ $v2 == '1/1' ]]
+                then
+                        if [[ $v3 == 'Running' ]]
+                        then
+				check=$((check+1))
+                        fi
+                fi
+        fi
+done < k2
+if [ $check -eq 2 ]
+then
+        echo -e "pod myapp1 is running \e[1;32m Pass \e[0m"
+else
+        echo -e "pod myapp1 is not running \e[1;31m Fail \e[0m"
+fi
+
+kubectl get svc 2> /dev/null > k3
+while IFS=' ' read -r v1 v2 v3 v4 v5 v6
+do
+	if [[ $v1 == 'myapp1' ]]
+	then
+		if [[ $v2 == 'ClusterIP' ]]
+		then
+			if curl $v3:8080 ; then
+				check=$((check+1))
+			fi
+		fi
+	fi
+done < k3
+if [ $check -eq 3 ]
+then
+        echo -e "svc myapp1 is running \e[1;32m Pass \e[0m"
+else
+        echo -e "svc myapp1 is not running \e[1;31m Fail \e[0m"
+fi
+
+sudo rm k1 k2 k3
+		;;
+	lab5)
+echo -e "\e[1;34m===========================================================\e[0m"
+echo -e "\e[1;34mGrading Script for Assisted Practice 5 Unit 2\e[0m"
+echo -e "\e[1;34m===========================================================\e[0m"
+
+check=0
+kubectl get deployment 2> /dev/null > k1
+while IFS=' ' read v1 v2 v3 v4 v5
+do
+	if [[ $v1 == 'myapp1' ]]
+	then
+		if [[ $v2 == '1/1' ]]
+		then
+			check=$((check+1))
+		fi
+	fi
+done < k1
+if [ $check -eq 1 ]
+then
+	echo -e "deployment myapp1 is ready \e[1;32m Pass \e[0m"
+else
+	echo -e "deployment myapp1 is not ready \e[1;31m Fail \e[0m"
+fi
+kubectl get pods -o wide 2> /dev/null > k2
+while IFS=' ' read -r v1 v2 v3 v4 v5 v6 v7 v8 v9
+do
+        if [[ $v1 == *'mypod1'* ]]
+        then
+                if [[ $v2 == '1/1' ]]
+                then
+                        if [[ $v3 == 'Running' ]]
+                        then
+				check=$((check+1))
+                        fi
+                fi
+        fi
+done < k2
+if [ $check -eq 2 ]
+then
+        echo -e "pod myapp1 is running \e[1;32m Pass \e[0m"
+else
+        echo -e "pod myapp1 is not running \e[1;31m Fail \e[0m"
+fi
+
+kubectl get svc 2> /dev/null > k3
+while IFS=' ' read -r v1 v2 v3 v4 v5 v6
+do
+	if [[ $v1 == 'myapp1' ]]
+	then
+		if [[ $v2 == 'ClusterIP' ]]
+		then
+			if curl $v3:8080 ; then
+				check=$((check+1))
+			fi
+		fi
+	fi
+done < k3
+if [ $check -eq 3 ]
+then
+        echo -e "svc myapp1 is running \e[1;32m Pass \e[0m"
+else
+        echo -e "svc myapp1 is not running \e[1;31m Fail \e[0m"
+fi
+
+kubectl get namespaces > k4
+while IFS=' ' read -r v1 v2 v3
+do
+	if [[ $v1 == 'mynamespace' ]]
+	then
+		check=$((check+1))
+	fi
+done < k4
+if [ $check -eq 4 ]
+then
+	echo -e "namespace mynamespace is not deleted successfully  \e[1;31m Fail \e[0m"
+else
+	echo -e "namespace mynamespace is deleted successfully  \e[1;32m Pass \e[0m"
+fi
+
+sudo rm k1 k2 k3 k4
+		;;
+	lab6)
+echo -e "\e[1;34m===========================================================\e[0m"
+echo -e "\e[1;34mGrading Script for Assisted Practice 2 Unit 2\e[0m"
+echo -e "\e[1;34m===========================================================\e[0m"
+
+check=0
+kubectl get jobs 2> /dev/null > k1
+while IFS=' ' read -r v1 v2 v3 v4
+do
+	if [[ $v1 == 'pi' ]]
+	then
+		if [[ $v2 == '1/1' ]]
+		then
+			check=$((check+1))
+		fi
+	fi
+done < k1
+
+kubectl get pods 2> /dev/null > k2 
+while IFS=' ' read -r v1 v2 v3 v4 v5
+do 
+	if [[ $v1 == *'pi'* ]]
+	then
+		if [[ $v3 == 'Completed' ]]
+		then
+			check=$((check+1))
+		fi
+	fi
+done < k2 
+if [ $check -eq 2 ]
+then
+	echo -e "Jobs is completed successful \e[1;32m Pass \e[0m"
+else	
+	echo -e "Jobs is not completed successful \e[1;31m Fail \e[0m"
+fi
+
+		;;
+	esac
+fi
+
