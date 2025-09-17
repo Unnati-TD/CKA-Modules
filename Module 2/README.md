@@ -15,7 +15,7 @@ Before using the script, ensure you have the following prerequisites:
 To download the script, run the following command in your terminal:
 
 ```bash
-wget -P /usr/bin https://raw.githubusercontent.com/Unnati-TD/CKA-Modules/master/UNNATI-CKA-MODULE2
+wget -P /usr/bin https://raw.githubusercontent.com/Unnati-TD/CKA-Modules/master/Module%202/UNNATI-CKA-MODULE2
 ```
 
 ### Giving Execute Permission
