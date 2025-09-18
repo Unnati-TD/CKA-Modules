@@ -1,7 +1,7 @@
 # CKA-Modules: Grading & Validation Scripts
 
 A collection of grading (validation) and solution scripts for Kubernetes tasks, helping learners of the *Unnati development & training centre pvt.[KUCL 2.3]* course to automate checking their work.  
-![Unnati Logo]([https://unnatidevelopment.in/wp-content/uploads/2019/12/hdlogo-1-300x77.png](https://services.google.com/fh/files/misc/unnati_logo.png))
+![Unnati Logo](https://services.google.com/fh/files/misc/unnati_logo.png)
 
 ---
 
