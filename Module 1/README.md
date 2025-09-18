@@ -33,7 +33,7 @@ Once the script is downloaded and has the necessary permissions, you can use it 
 To use the script, execute the following command:
 
 ```bash
-UNNATI-CKA-MODULE1 grade task1
+UNNATI-CKA-MODULE1 task1
 ```
 
 Replace 'task1' with the task number of your choice.
