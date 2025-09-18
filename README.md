@@ -46,7 +46,7 @@ CKA-Modules/
 
 ---
 ## Quick Start
-![KUCL 2.3](https://unnatidevelopment.in/wp-content/uploads/2021/03/KuCL-2.3-logo.png)
+
 Follow these steps to get up and running with the CKA Modules grading scripts:
 
 1. **Set up Kubernetes access**
