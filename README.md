@@ -28,18 +28,28 @@ This allows learners to practice, self-evaluate, correct mistakes, and build con
 - Each module folder contains specific tasks and matching grading scripts  
 - `tasks/` contains shell scripts that run `kubectl` commands + checks
 
-  CKA-Modules/
+CKA-Modules/
+
 |-- Module\ 1
+
 |   |-- CKA-Module1\ Tasks.md
+
 |   |-- CKA-Module1\ Tasks.pdf
+
 |   |-- README.md
-|   `-- UNNATI-CKA-MODULE1
-`-- Module\ 2
+
+|   `-- UNNATI-CKA-MODULE1`
+
+|-- Module\ 2
     |-- Module-2.md
+    
     |-- Module2\ Tasks.md
+    
     |-- Module2\ Tasks.pdf
+    
     |-- README.md
-    `-- UNNATI-CKA-MODULE2
+    
+    `-- UNNATI-CKA-MODULE2`
 
 ---
 ## Quick Start
