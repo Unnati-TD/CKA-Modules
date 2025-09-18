@@ -10,7 +10,6 @@ A collection of grading (validation) and solution scripts for Kubernetes tasks, 
 - [Repository Structure](#repository-structure)  
 - [Quick Start](#quick-start)  
 - [How to Use the Grading Scripts](#how-to-use-the-grading-scripts)  
-- [Solution Scripts](#solution-scripts)  
   
 ## Purpose
 
