@@ -1,6 +1,6 @@
 # CKA-Modules: Grading & Validation Scripts
 
-A collection of grading (validation) and solution scripts for Kubernetes tasks, helping learners of the *Certified Kubernetes Administrator (CKA)* course to automate checking their work.  
+A collection of grading (validation) and solution scripts for Kubernetes tasks, helping learners of the *Unnati development & training centre pvt.[KUCL 2.3]* course to automate checking their work.  
 
 ---
 
