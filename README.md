@@ -4,7 +4,7 @@ A collection of grading (validation) and solution scripts for Kubernetes tasks, 
 
 ---
 
-## 🧾 Table of Contents
+##  Table of Contents
 
 - [Purpose](#purpose)  
 - [Repository Structure](#repository-structure)  
@@ -12,7 +12,7 @@ A collection of grading (validation) and solution scripts for Kubernetes tasks, 
 - [How to Use the Grading Scripts](#how-to-use-the-grading-scripts)  
 - [Solution Scripts](#solution-scripts)  
   
-## 🔍 Purpose
+## Purpose
 
 The aim of this repo is to provide:
 
@@ -24,7 +24,7 @@ This allows learners to practice, self-evaluate, correct mistakes, and build con
 
 ---
 
-## 🗄 Repository Structure
+## Repository Structure
 
 CKA-Modules/
 ├── Module 1/ # Task & grading scripts for Module 1
