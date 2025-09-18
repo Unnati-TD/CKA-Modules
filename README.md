@@ -42,7 +42,7 @@ CKA-Modules/
 |   ├── Module2 Tasks.pdf
 |   ├── README.md
 |   └── UNNATI-CKA-MODULE2
-└──
+└── README.md
 ```
 
 ---
