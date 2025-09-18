@@ -26,13 +26,7 @@ This allows learners to practice, self-evaluate, correct mistakes, and build con
 
 ## Repository Structure
 
-CKA-Modules/
-├── Module 1/ # Task & grading scripts for Module 1
-├── Module 2/ # Task & grading scripts for Module 2
-├── ... # More modules
-├── solutions/ # Solution scripts & YAML manifests
-├── tasks/ # Grading / validation scripts
-└── README.md # This file
+
 
 
 - Each module folder contains specific tasks and matching grading scripts  
