@@ -56,5 +56,57 @@ Follow these steps to get up and running with the CKA Modules grading scripts:
    kubectl apply -f my-solution.yaml
    ```
 
+## How to Use the Grading Scripts
+
+The grading scripts are simple **Bash scripts** that validate your Kubernetes resources against the task requirements.
+
+### What They Check
+Each script runs `kubectl` commands and verifies:
+- ✅ Deployment replica counts  
+- ✅ Labels on Deployments and Pod templates  
+- ✅ Service types (ClusterIP, NodePort, etc.)  
+- ✅ Correct container images  
+- ✅ Pod readiness and running status  
+
+### Steps to Run
+1. **Apply/Create your resources**  
+   First, deploy the YAML manifests you wrote:
+   ```bash
+   kubectl apply -f my-solution.yaml
+   ```
+2. **Wait for resources to be ready**
+Example:
+```
+kubectl get pods
+```
+
+3. **Run the grading script**
+From the tasks/ directory:
+```
+UNNATI-CKA-MODULE1 task1
+```
+
+4. **Check the output**
+
+The script prints pass/fail checks with symbols:
+
+- ✔ myapp1-dep has 6 replicas
+- ✘ myapp1-dep missing label course=cka
+- ✔ myapp2-dep has 5 replicas
+
+# Example Workflow
+
+### Apply your solution
+```
+kubectl apply -f tasksolution9.yaml
+```
+### Run validation
+```
+UNNATI-CKA-MODULE1 task9
+```
+
+
+This way, you know instantly whether your resources meet the task requirements.
+
 
 
